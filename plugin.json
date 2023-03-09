@@ -1,0 +1,13 @@
+{
+    "preload":"preload.js",
+	"logo": "logo.png",
+    "platform": ["linux"],
+	"features": [
+		{
+		  	"code": "搜索",
+		  	"explain": "搜索文件",
+			"cmds":["fd","搜索","find"]
+		}
+	]
+}
+
