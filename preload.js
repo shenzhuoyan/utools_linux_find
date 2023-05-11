@@ -31,7 +31,16 @@ window.exports = {
                     '# -F 字符串只当作文本而不是正则表达式\n'+
                     '# -a 显示全路径\n'+
                     '# 更多参数使用 man fdfind 或 man fd-find\n'+
-                    '\\$cmd --search-path ~ --max-results 60 -Fa \\$@" > ~/.config/findlinux/find.sh',(err, stdout, stderr)=>{})
+                    'result=\\`\\$cmd --search-path ~ -Fa \\$1\\`\n'+
+                    'shift\n'+
+                    'for arg in \\$*;do result=\\`echo \\"\\$result\\" | grep \\$arg\\`;done\n'+
+                    'count=0\n'+
+                    'echo \\"\\$result\\" | while read line;do\n'+
+                    'count=\\$((\\$count+1))\n'+
+                    'echo \\$line\n'+
+                    'if [ \\$count = 60 ];then\n'+
+                    'break\nfi\n'+
+                    'done" > ~/.config/findlinux/find.sh',(err, stdout, stderr)=>{})
               exec('chmod +x ~/.config/findlinux/find.sh',(err, stdout, stderr)=>{})
             }
           })
