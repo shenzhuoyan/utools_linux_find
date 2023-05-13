@@ -1,7 +1,7 @@
 const { exec } = require('child_process')
 const fs = require('fs');
 const confpath = `$HOME/.config/findlinux`
-const version = 2
+const version = 3
 window.exec = function (keyword, callback) {
     exec(confpath+`/find.sh `+keyword, (err, stdout, stderr) => {
       if (err) {
@@ -84,7 +84,7 @@ window.exports = {
             // const url = itemData.url
             //require('electron').shell.openExternal(url)
             //window.utools.outPlugin()
-            if(itemData.isFile) utools.shellOpenPath(itemData.url)
+            if(itemData.isFile) exec("xdg-open "+itemData.url+" &",(err, stdout, stderr)=>{})
             else utools.shellShowItemInFolder(itemData.url)
         },
         // 子输入框为空时的占位符，默认为字符串"搜索"
