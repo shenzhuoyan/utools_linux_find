@@ -1,9 +1,8 @@
 const { exec } = require('child_process')
 const fs = require('fs');
-const confpath = `$HOME/.config/findlinux`
-const version = 3
+const version = 4
 window.exec = function (keyword, callback) {
-    exec(confpath+`/find.sh `+keyword, (err, stdout, stderr) => {
+    exec(`~/.config/findlinux/find.sh `+keyword, (err, stdout, stderr) => {
       if (err) {
         console.log("无结果")
         callback()//没结果返回个null
@@ -20,15 +19,15 @@ window.exports = {
      args: {
         // 进入插件应用时调用（可选）
         enter: (action, callbackSetList) => {
-          // console.log("进入插件")
           // 注意更新时修改当前版本
           // 判断是否已有配置（第一次安装）或版本是否需要升级
-          exec(`if [ ! -f `+confpath+`/version ] || (( `+version+` > $(cat $HOME/.config/findlinux/version) ));`+
-          `then echo yes; else echo no ;fi`,(err, stdout, stderr)=>{
+          
+          exec("if [ ! -f ~/.config/findlinux/version ] || [ "+version+" -gt `cat ~/.config/findlinux/version` ];"+
+          "then echo yes; else echo no ;fi",(err, stdout, stderr)=>{
             console.log(stdout)
             if(stdout=="yes\n"){// 如果文件不存在或者版本比当前低就重新生成
               console.log("文件不存在")
-              exec(`mkdir -p `+ confpath,(err, stdout, stderr)=>{})
+              exec(`mkdir -p ~/.config/findlinux`,(err, stdout, stderr)=>{})
               // 重新生成文件
               exec(`echo "#\!/bin/bash\n# 判断命令是哪个\nif hash fdfind 2>/dev/null; then\ncmd=fdfind\nelse cmd=fd-find\nfi\n`+
               `# 参数如下\n# --search-path 从用户家目录下搜索\n# --max-results 120 只显示最多120条\n`+
@@ -37,12 +36,13 @@ window.exports = {
               `for arg in \\$*;do result=\\$(echo \\"\\$result\\" | grep \\$arg);done\ncount=0\n`+
               `echo \\"\\$result\\" | while read line;do\ncount=\\$((\\$count+1))\necho \\$line\n`+
               `if [ \\$count = 120 ];then\nbreak\nfi\ndone\nelse\n# 只输入一个字母就进行精准匹配\n`+
-              `\\$cmd --search-path ~ -Fa \\$1 | grep \\"/\\$1\\$\\"\nfi" > `+confpath+`/find.sh`,(err, stdout, stderr)=>{})
+              `\\$cmd --search-path ~ -Fa \\$1 | grep \\"/\\$1\\$\\"\nfi" > ~/.config/findlinux/find.sh`,(err, stdout, stderr)=>{})
               // 记录本地版本
-              exec(`echo `+version+` > `+confpath+`/version`)
+              exec(`echo `+version+` > ~/.config/findlinux/version`)
               // 添加执行权限
-              exec('chmod +x '+confpath+`/find.sh`,(err, stdout, stderr)=>{})
+              exec(`chmod +x ~/.config/findlinux/find.sh`,(err, stdout, stderr)=>{})
             }
+            else console.log("文件存在")
           })
         },
         // 子输入框内容变化时被调用 可选 (未设置则无搜索)
