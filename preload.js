@@ -83,8 +83,8 @@ window.exports = {
             window.utools.hideMainWindow()
             // const url = itemData.url
             //require('electron').shell.openExternal(url)
-            //window.utools.outPlugin()
-            if(itemData.isFile) exec("xdg-open "+itemData.url+" &",(err, stdout, stderr)=>{})
+            //window.utools.outPlugin() 
+            if(itemData.isFile) exec("xdg-open '"+itemData.url+"' &",(err, stdout, stderr)=>{})
             else utools.shellShowItemInFolder(itemData.url)
         },
         // 子输入框为空时的占位符，默认为字符串"搜索"
