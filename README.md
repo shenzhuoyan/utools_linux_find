@@ -3,7 +3,7 @@ utools linux端第一个文件搜索插件
 
 ## 安装
 
-1. 在utools插件商店搜索 “linux_find_file” 安装
+1. 在utools插件商店搜索 “find for linux” 安装
 2. 或在这里下载安装包，拖动安装包时打开utools窗口即可拖进去，点击安装
 
 ## 使用
