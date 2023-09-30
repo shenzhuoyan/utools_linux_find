@@ -15,3 +15,11 @@ sudo apt install fd-find
 ```
 
 其他发行版自行安装
+
+## 常用配置
+
+- 配置文件在`.config/findlinux/find.sh`
+- 设置fd-find的参数，修改配置文件中的`result`字符串。如指定目录为`~/笔记`、`~/Documents`、`~/Desktop`：
+  ```shell
+  result=$($cmd --search-path ~/笔记 --search-path ~/Documents --search-path ~/Desktop -Fa $1)
+  ```
